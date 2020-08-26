@@ -1,0 +1,20 @@
+{
+  "name": "back-end-boilerplate",
+  "version": "1.0.0",
+  "description": "backend boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdelSF/backend-boilerplate.git"
+  },
+  "author": "Adel Pakrad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdelSF/backend-boilerplate/issues"
+  },
+  "homepage": "https://github.com/AdelSF/backend-boilerplate#readme"
+}
