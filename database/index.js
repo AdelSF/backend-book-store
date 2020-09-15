@@ -26,6 +26,21 @@ module.exports = {
         `
         return db.one(sql, [name, author, year, country, img, series, contributors, edition, grade, keywords])
     },
+    
+    // datebase 
+    // - I neeed to figure out
+    editABook(x) {
+        const { name, author, year, country, img, series, contributors, edition, grade, keywords } = x
+        const sql = `
+            INSERT INTO
+                books(name, author, year, country, img, series, contributors, edition, grade, keywords)
+            VALUES
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            RETURNING
+                *
+        `
+        return db.one(sql, [name, author, year, country, img, series, contributors, edition, grade, keywords])
+    },
 
     getBookById(id) {
         const sql = `

@@ -28,11 +28,18 @@ app.post('/book', (req, res) => {
     })
 })
 
-
+// here needs edit
 app.put('/editbook', (req, res) => {
     console.log("this is a edit route")
-    // const editedBook = req.body
-    // db.editABook()
+    const editedBook = req.body
+    db.editABook(editedBook)
+    // console.log('editedbook => ', editedbook);
+    .then(result => {
+        res.send(result)
+    })
+    .catch(error => {
+        console.log('error => ', error);
+    })
 })
 
 module.exports = app
