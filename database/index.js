@@ -27,19 +27,28 @@ module.exports = {
         return db.one(sql, [name, author, year, country, img, series, contributors, edition, grade, keywords])
     },
     
-    // datebase 
-    // - I neeed to figure out
-    editABook(x) {
-        const { name, author, year, country, img, series, contributors, edition, grade, keywords } = x
+    // - 4th too data base update mishe - return mishe
+    editABook({ id, name, author, year, country, img, series, contributors, edition, grade, keywords }) {
         const sql = `
-            INSERT INTO
-                books(name, author, year, country, img, series, contributors, edition, grade, keywords)
-            VALUES
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            UPDATE
+                books
+            SET
+                name = $1,
+                author = $2,
+                year = $3,
+                country = $4,
+                img = $5,
+                series = $6,
+                contributors = $7,
+                edition = $8,
+                grade = $9,
+                keywords = $10
+            WHERE
+                id = $11
             RETURNING
                 *
         `
-        return db.one(sql, [name, author, year, country, img, series, contributors, edition, grade, keywords])
+        return db.one(sql, [name, author, year, country, img, series, contributors, edition, grade, keywords, id])
     },
 
     getBookById(id) {
@@ -52,6 +61,20 @@ module.exports = {
                 id = $1
         `
         return db.any(sql, [id])
-    }
+    },
+
+
+    postAUser(y) {
+        const { fname, lname, email, password } = y
+        const sql = `
+            INSERT INTO
+                users(fname, lname, email, password)
+            VALUES
+                ($1, $2, $3, $4)
+            RETURNING
+                *
+        `
+        return db.one(sql, [fname, lname, email, password])
+    },
 
 }

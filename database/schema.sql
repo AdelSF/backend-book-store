@@ -14,3 +14,19 @@ CREATE TABLE books
     keywords VARCHAR(255)
 )
 
+DROP TABLE IF EXISTS users;
+CREATE TABLE users
+(
+    id SERIAL PRIMARY KEY,
+    fname VARCHAR(255),
+    lname VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255)
+)
+
+
+INSERT INTO books (name, author, year, country, img, series, contributors, edition, grade, keywords)
+VALUES
+('Begin Again', 'Eddie S. Glaude', '2020', 'USA', 'https://images-production.bookshop.org/spree/images/attachments/3757047/original/9780525575320.jpg?1598388402',
+'hard cover', 'none', '1', 'AE', 'Crown Publishing Group (NY)'),
+();
