@@ -14,5 +14,3 @@ pg_ctl -D /usr/local/var/postgres start
 ```
 initdb /usr/local/var/postgres
 ```
-
-"127.0.0.1", port 5432
