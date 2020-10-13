@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../database')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const privateKey = 'vwgdlgwksh3473##'
+const privateKey = 'vwgdlgwksh3473##!'
 
 app.get('/books', (req, res) => {
     db.getAllBooks()
@@ -55,10 +55,9 @@ app.post('/signin', (req, res) => {
             const hash = user[0].password
             bcrypt.compare(password, hash, function(err, result) {
                 if (result) {
-                    console.log('here');
-                    jwt.sign({ foo: 'bar' }, privateKey, { expiresIn: '1h' }, { algorithm: 'RS256' }, function(err, token) {
-                        console.log('token => ', token);
-                    })
+                    delete user[0].password
+                    let token = jwt.sign({ user: user[0] }, privateKey, { expiresIn: '1h' })
+                    res.json(token)
                 } else {
                     res.send({ error: 'Password or Email is incorrect'})
                 }
