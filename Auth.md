@@ -1,0 +1,20 @@
+- Sign up
+    - FrontEnd
+        - Email and Passpword
+    - Backend
+        - Check to see if email exist
+        - Encrypt the password
+        - Save the password and email to the databse
+
+- Sign in
+    - FrontEnd
+        - Email and Passpword
+    - BackEnd
+        - Check to see if email exist
+        - Check to see if password match
+        - Create a Token (https://github.com/auth0/node-jsonwebtoken)
+        - Return the response including the Token
+    - FrontEnd
+        - Get the Token and validate it
+        - Save the Token (Session or local storage)
+        - Redirect

@@ -1,7 +1,10 @@
 const express = require('express')
 const app = express.Router()
+const jwt = require('jsonwebtoken');
 const db = require('../database')
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const privateKey = 'vwgdlgwksh3473##'
 
 app.get('/books', (req, res) => {
     db.getAllBooks()
@@ -42,15 +45,49 @@ app.put('/editbook', (req, res) => {
     })
 })
 
-app.post('/adduser', (req, res) => {
-    const newUser = req.body
-    db.postAUser(newUser)
-    .then(result => {
-        console.log('you hit adduser route => ')
-        res.send(result)
+
+
+app.post('/signin', (req, res) => {
+    const { email, password } = req.body
+    db.findUser(email)
+    .then(user => {
+        if (user.length > 0) {
+            const hash = user[0].password
+            bcrypt.compare(password, hash, function(err, result) {
+                if (result) {
+                    console.log('here');
+                    jwt.sign({ foo: 'bar' }, privateKey, { expiresIn: '1h' }, { algorithm: 'RS256' }, function(err, token) {
+                        console.log('token => ', token);
+                    })
+                } else {
+                    res.send({ error: 'Password or Email is incorrect'})
+                }
+            })
+        } else {
+            res.send({ error: 'Password or Email is incorrect'})
+        }
     })
-    .catch(error => {
-        console.log('error => ', error);
+})
+
+// 3rd here
+app.post('/signup', (req, res) => {
+    const { fname, lname, email, password } = req.body
+    db.findUser(email)
+// 5th here   
+    .then(result => {
+        if(result.length === 0) {
+            bcrypt.hash(password, saltRounds, function(err, hash) {
+                db.postAUser({ fname, lname, email, hash })
+                .then(result => {
+                    res.sendStatus(200)
+                })
+                .catch(error => {
+                    console.log('error => ', error);
+                })
+            })
+        } else {
+            res.send({error: 'User already exist!'})
+        }
     })
 })
 
