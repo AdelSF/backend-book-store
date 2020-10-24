@@ -57,36 +57,37 @@ app.post('/signin', (req, res) => {
                 if (result) {
                     delete user[0].password
                     let token = jwt.sign({ user: user[0] }, privateKey, { expiresIn: '1h' })
-                    res.json(token)
+                    res.status(200).send({token})
                 } else {
-                    res.send({ error: 'Password or Email is incorrect'})
+                    res.status(401).send({error: 'Email/Password in wrong!'})
                 }
             })
         } else {
-            res.send({ error: 'Password or Email is incorrect'})
+            res.status(401).send({error: 'Email/Password in wrong!'})
         }
     })
 })
 
-// 3rd here
 app.post('/signup', (req, res) => {
     const { fname, lname, email, password } = req.body
     db.findUser(email)
-// 5th here   
     .then(result => {
         if(result.length === 0) {
             bcrypt.hash(password, saltRounds, function(err, hash) {
                 db.postAUser({ fname, lname, email, hash })
                 .then(result => {
-                    res.sendStatus(200)
+                    res.status(200).send({msg: 'User was successfully created!'})
                 })
                 .catch(error => {
                     console.log('error => ', error);
                 })
             })
         } else {
-            res.send({error: 'User already exist!'})
+            res.status(409).send({error: 'User already exist!'})
         }
+    })
+    .catch(error => {
+        res.send({msg: 'Something went wrong!', error})
     })
 })
 
